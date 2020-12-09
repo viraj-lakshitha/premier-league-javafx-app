@@ -5,6 +5,7 @@ import com.courseWork.submissionFour.SportClub;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -15,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -34,10 +36,15 @@ public class TournamentManagerGUI extends Application {
         //Image bgImg = new Image("../PremierLeagueManagerBG.png"); TODO
 
         //UI Design
-        Rectangle blueRect = new Rectangle(450,700);
-        blueRect.setFill(Color.rgb(137,165,247));
-        blueRect.setLayoutX(0);
-        blueRect.setLayoutY(0);
+        Rectangle blueRect1 = new Rectangle(450,700);
+        blueRect1.setFill(Color.rgb(137,165,247));
+        blueRect1.setLayoutX(0);
+        blueRect1.setLayoutY(0);
+
+        Rectangle blueRect2 = new Rectangle(450,700);
+        blueRect2.setFill(Color.rgb(137,165,247));
+        blueRect2.setLayoutX(1350);
+        blueRect2.setLayoutY(0);
 
         //Welcome Note
         Label welcomeLabel1 = new Label("Welcome");
@@ -188,35 +195,195 @@ public class TournamentManagerGUI extends Application {
         tableViewListClub.setLayoutX(500);
         tableViewListClub.setLayoutY(100);
 
-        //Adding Search TextField
-        TextField searchInput = new TextField();
-        searchInput.setPromptText("Search Club");
-        searchInput.setLayoutX(500);
-        searchInput.setLayoutY(50);
+        //Adding Table to Display the List of Match Details
+        TableView<SportClub> tableViewListMatch = new TableView<>();
+        //final ObservableList<SportClub> listObserver = FXCollections.observableArrayList();
 
-        //Search Button
-        Button searchButton = new Button("Search Club");
-        searchButton.setLayoutY(50);
-        searchButton.setLayoutX(700);
+        TableColumn clubOneMatch = new TableColumn("Club One");
+        clubOneMatch.setMinWidth(150);
+        //clubOneMatch.setCellValueFactory(new PropertyValueFactory("nameSportClub"));
 
-        //Adding Search TextField
+        TableColumn clubOneMatchScore = new TableColumn("Club Score");
+        clubOneMatchScore.setMinWidth(100);
+        //clubOneMatchScore.setCellValueFactory(new PropertyValueFactory("numberOfMatchesPlayed"));
+
+        TableColumn clubTwoMatch = new TableColumn("Club Two");
+        clubTwoMatch.setMinWidth(150);
+        //clubTwoMatch.setCellValueFactory(new PropertyValueFactory("numberOfClubWins"));
+
+        TableColumn clubTwoMatchScore = new TableColumn("Club Score");
+        clubTwoMatchScore.setMinWidth(100);
+        //clubTwoMatchScore.setCellValueFactory(new PropertyValueFactory("numberOfClubDraw"));
+
+        TableColumn matchDateColumn = new TableColumn("MatchDate");
+        matchDateColumn.setMinWidth(150);
+        //matchDateColumn.setCellValueFactory(new PropertyValueFactory("numberOfClubDefeat"));
+
+        TableColumn winClubName = new TableColumn("Won Team");
+        winClubName.setMinWidth(150);
+        //winClubName.setCellValueFactory(new PropertyValueFactory("numberOfGoalRecived"));
+
+        //Table Properties
+        //tableViewListClub.setItems(listObserver);
+        tableViewListMatch.setVisible(false);
+        tableViewListMatch.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableViewListMatch.getColumns().addAll(clubOneMatch,clubOneMatchScore,clubTwoMatch,clubTwoMatchScore,matchDateColumn,winClubName);
+        tableViewListMatch.setLayoutX(500);
+        tableViewListMatch.setLayoutY(100);
+
+        //Adding Club Search TextField
+        TextField searchClubInput = new TextField();
+        searchClubInput.setPromptText("Eg: Barcelona");
+        searchClubInput.setVisible(false);
+
+        //Club Search Button
+        Button searchClubButton = new Button("Search Club");
+        searchClubButton.setVisible(false);
+
+        //Adding Match Search TextField
+        TextField searchMatchInput = new TextField();
+        searchMatchInput.setPromptText("Eg: 2020/12/10");
+        searchMatchInput.setVisible(false);
+
+        //Match Search Button
+        Button searchMatchButton = new Button("Search Matches");
+        searchMatchButton.setVisible(false);
+
+        //Adding Delete Search TextField
         TextField deleteInput = new TextField();
-        deleteInput.setPromptText("Delete Club");
-        deleteInput.setLayoutX(820);
-        deleteInput.setLayoutY(50);
+        deleteInput.setPromptText("Eg: Barcelona");
+        deleteInput.setVisible(false);
 
-        //Search Button
+        //Delete Search Button
         Button deleteButton = new Button("Delete Club");
-        deleteButton.setLayoutY(50);
-        deleteButton.setLayoutX(1020);
+        deleteButton.setVisible(false);
+
+        //Select the Options
+        ComboBox selectOption = new ComboBox();
+        selectOption.setPrefWidth(200);
+        selectOption.getSelectionModel().select("About and Help");
+        selectOption.getItems().addAll("About and Help","Delete Club","Display Club","Search Matches");
+        selectOption.setLayoutX(1480);
+        selectOption.setLayoutY(50);
+
+        //Add LineSeparator
+        Line newLine = new Line();
+        newLine.setStartX(1400);
+        newLine.setEndX(1750);
+        newLine.setStartY(120);
+        newLine.setEndY(120);
+
+        //ComboBox--> SelectOption Properties
+        selectOption.setOnAction(e -> {
+            if (selectOption.getValue() == "About and Help" ) {
+                //Make Invisible Other Labels and TextFields
+                searchClubInput.setVisible(false);
+                searchClubButton.setVisible(false);
+                searchMatchButton.setVisible(false);
+                searchMatchInput.setVisible(false);
+                deleteInput.setVisible(false);
+                deleteButton.setVisible(false);
+            }else if (selectOption.getValue() == "Delete Club") {
+                //Delete Club TextField Properties
+                deleteInput.setVisible(true);
+                deleteInput.setLayoutX(1425);
+                deleteInput.setLayoutY(150);
+                //Delete Club Button Properties
+                deleteButton.setVisible(true);
+                deleteButton.setLayoutX(1625);
+                deleteButton.setLayoutY(150);
+                //Make Invisible Other Labels and TextFields
+                searchClubInput.setVisible(false);
+                searchClubButton.setVisible(false);
+                searchMatchButton.setVisible(false);
+                searchMatchInput.setVisible(false);
+            }else if (selectOption.getValue() == "Display Club" ) {
+                //Display Club TextField Properties
+                searchClubInput.setVisible(true);
+                searchClubInput.setLayoutX(1425);
+                searchClubInput.setLayoutY(150);
+                //Display CLub Button Properties
+                searchClubButton.setVisible(true);
+                searchClubButton.setLayoutX(1625);
+                searchClubButton.setLayoutY(150);
+                //Make Invisible Other Labels and TextFields
+                searchMatchButton.setVisible(false);
+                searchMatchInput.setVisible(false);
+                deleteInput.setVisible(false);
+                deleteButton.setVisible(false);
+            }else if (selectOption.getValue() == "Search Matches") {
+                //Search Match TextField Properties
+                searchMatchInput.setVisible(true);
+                searchMatchInput.setLayoutX(1425);
+                searchMatchInput.setLayoutY(150);
+                //Search Match Button Properties
+                searchMatchButton.setVisible(true);
+                searchMatchButton.setLayoutX(1625);
+                searchMatchButton.setLayoutY(150);
+                //Make Invisible Other Labels and TextFields
+                deleteInput.setVisible(false);
+                deleteButton.setVisible(false);
+                searchClubInput.setVisible(false);
+                searchClubButton.setVisible(false);
+            }
+        });
+
+        //Display All Matches Played Button
+        Button displayMatch = new Button("Display All Matches");
+        displayMatch.setPrefSize(150,30);
+        displayMatch.setLayoutY(600);
+        displayMatch.setLayoutX(500);
+
+        //Display All Clubs Played Button
+        Button displayAllClub = new Button("Display All Clubs");
+        displayAllClub.setVisible(false);
+        displayAllClub.setPrefSize(150,30);
+        displayAllClub.setLayoutY(600);
+        displayAllClub.setLayoutX(500);
+
+        //Sort to Number of Wins Button
+        Button sortWins = new Button("Sort to Wins");
+        sortWins.setLayoutY(600);
+        sortWins.setLayoutX(675);
+
+        //Sort to Goal Scored Button
+        Button sortGoal = new Button("Sort to Goal Scored");
+        sortGoal.setLayoutY(600);
+        sortGoal.setLayoutX(800);
 
         //Random Club Generate Button
         Button generateButton = new Button("Generate New Club");
-        generateButton.setLayoutY(50);
-        generateButton.setLayoutX(1145);
+        generateButton.setLayoutY(600);
+        generateButton.setLayoutX(980);
+        generateButton.setDisable(false);
+
+        //Save to Local Database Button
+        Button saveLocal = new Button("Save to Database");
+        saveLocal.setLayoutY(600);
+        saveLocal.setLayoutX(1155);
+
+        //Display Matches Details Button Properties
+        displayMatch.setOnAction(e -> {
+            generateButton.setDisable(false);
+            tableViewListMatch.setVisible(true);
+            tableViewListClub.setVisible(false);
+            displayMatch.setVisible(false);
+            displayAllClub.setVisible(true);
+        });
+
+        //Display All Club Button Properties
+        displayAllClub.setOnAction(e -> {
+            generateButton.setDisable(true);
+            tableViewListMatch.setVisible(false);
+            tableViewListClub.setVisible(true);
+            displayMatch.setVisible(true);
+            displayAllClub.setVisible(false);
+        });
 
         //Adding Elements to the Pane
-        rootPane.getChildren().add(blueRect);
+        rootPane.getChildren().add(blueRect1);
+        rootPane.getChildren().add(blueRect2);
+        rootPane.getChildren().add(newLine);
         rootPane.getChildren().add(welcomeLabel1);
         rootPane.getChildren().add(welcomeLabel2);
         rootPane.getChildren().add(clubNameLabel);
@@ -224,6 +391,7 @@ public class TournamentManagerGUI extends Application {
         rootPane.getChildren().add(clubNameTextField);
         rootPane.getChildren().add(clubLocationTextField);
         rootPane.getChildren().add(clubTypeComboBox);
+        rootPane.getChildren().add(selectOption);
         rootPane.getChildren().add(clubTypeLabel);
         rootPane.getChildren().add(clubParamOne);
         rootPane.getChildren().add(clubParamOneTextField);
@@ -232,18 +400,25 @@ public class TournamentManagerGUI extends Application {
         rootPane.getChildren().add(addMemberButton);
         rootPane.getChildren().add(logoImageView);
         rootPane.getChildren().add(tableViewListClub);
-        rootPane.getChildren().add(searchInput);
-        rootPane.getChildren().add(searchButton);
+        rootPane.getChildren().add(tableViewListMatch);
+        rootPane.getChildren().add(searchClubButton);
+        rootPane.getChildren().add(searchClubInput);
+        rootPane.getChildren().add(searchMatchButton);
+        rootPane.getChildren().add(searchMatchInput);
         rootPane.getChildren().add(deleteButton);
         rootPane.getChildren().add(deleteInput);
         rootPane.getChildren().add(generateButton);
+        rootPane.getChildren().add(displayMatch);
+        rootPane.getChildren().add(displayAllClub);
+        rootPane.getChildren().add(sortWins);
+        rootPane.getChildren().add(sortGoal);
+        rootPane.getChildren().add(saveLocal);
 
-        //rootPane.getChildren().add(new ImageView(bgImg));
 
         primaryStage.setResizable(false); //Disable Resizing Window
         primaryStage.setTitle("Dashboard - Premier League");
         primaryStage.setAlwaysOnTop(true); //Set Conditions --> setAlwaysOnTop = true
-        primaryStage.setScene(new Scene(rootPane, 1350, 700));
+        primaryStage.setScene(new Scene(rootPane, 1800, 700));
         primaryStage.show();
     }
 
