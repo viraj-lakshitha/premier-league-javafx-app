@@ -1,10 +1,16 @@
 package com.courseWork.FinalFormativeSub;/*File Author : Viraj Lakshitha Bandara*/
 
+import com.courseWork.submissionFour.PremierLeagueManager;
+import com.courseWork.submissionFour.SportClub;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -13,7 +19,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -46,9 +51,14 @@ public class TournamentManagerGUI extends Application {
         welcomeLabel2.setLayoutX(100);
 
         //Add Premier League Logo
-        //Image logoImage = new Image("logo-image.png");
+        Image logoImage = new Image("file:logo.png");
+        ImageView logoImageView = new ImageView(logoImage);
+        logoImageView.setLayoutX(70);
+        logoImageView.setLayoutY(520);
+        logoImageView.setPreserveRatio(true);
+        logoImageView.setFitWidth(300);
 
-        //Add Member Form
+        //Add Member-Form
         Label clubNameLabel = new Label("Club Name");
         clubNameLabel.setFont(Font.font("Tahoma",FontWeight.BOLD, FontPosture.ITALIC, 15));
         clubNameLabel.setLayoutX(40);
@@ -138,9 +148,75 @@ public class TournamentManagerGUI extends Application {
         });
         //TODO : Find a Solution to the Code Duplication
 
+        //Adding Table to Display the List of Clubs
+        TableView<SportClub> tableViewListClub = new TableView<>();
+        //final ObservableList<SportClub> listObserver = FXCollections.observableArrayList(PremierLeagueManager.listOfSportClubs);
+
+        TableColumn clubName = new TableColumn("Club Name");
+        clubName.setMinWidth(150);
+        //clubName.setCellValueFactory(new PropertyValueFactory("nameSportClub"));
+
+        TableColumn played = new TableColumn("Played");
+        //played.setCellValueFactory(new PropertyValueFactory("numberOfMatchesPlayed"));
+
+        TableColumn wins = new TableColumn("Won");
+        //wins.setCellValueFactory(new PropertyValueFactory("numberOfClubWins"));
+
+        TableColumn draws = new TableColumn("Draw");
+        //draws.setCellValueFactory(new PropertyValueFactory("numberOfClubDraw"));
+
+        TableColumn loss = new TableColumn("Loss");
+        //loss.setCellValueFactory(new PropertyValueFactory("numberOfClubDefeat"));
+
+        TableColumn recived = new TableColumn("Recived");
+        //recived.setCellValueFactory(new PropertyValueFactory("numberOfGoalRecived"));
+
+        TableColumn score = new TableColumn("Score");
+        //score.setCellValueFactory(new PropertyValueFactory("numberOfGoalScored"));
+
+        TableColumn points = new TableColumn("Points");
+        //points.setCellValueFactory(new PropertyValueFactory("numberOfPoints"));
+
+        TableColumn rank = new TableColumn("Rank");
+        //points.setCellValueFactory(new PropertyValueFactory(null)); //TODO : Assign Value to the TableColumn
+
+        //Table Properties
+        //tableViewListClub
+        //tableViewListClub.setItems(listObserver);
+        tableViewListClub.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        tableViewListClub.getColumns().addAll(clubName,played,wins,draws,loss,recived,score,points,rank);
+        tableViewListClub.setLayoutX(500);
+        tableViewListClub.setLayoutY(100);
+
+        //Adding Search TextField
+        TextField searchInput = new TextField();
+        searchInput.setPromptText("Search Club");
+        searchInput.setLayoutX(500);
+        searchInput.setLayoutY(50);
+
+        //Search Button
+        Button searchButton = new Button("Search Club");
+        searchButton.setLayoutY(50);
+        searchButton.setLayoutX(700);
+
+        //Adding Search TextField
+        TextField deleteInput = new TextField();
+        deleteInput.setPromptText("Delete Club");
+        deleteInput.setLayoutX(820);
+        deleteInput.setLayoutY(50);
+
+        //Search Button
+        Button deleteButton = new Button("Delete Club");
+        deleteButton.setLayoutY(50);
+        deleteButton.setLayoutX(1020);
+
+        //Random Club Generate Button
+        Button generateButton = new Button("Generate New Club");
+        generateButton.setLayoutY(50);
+        generateButton.setLayoutX(1145);
+
         //Adding Elements to the Pane
         rootPane.getChildren().add(blueRect);
-        //rootPane.getChildren().add(new ImageView(logoImage));
         rootPane.getChildren().add(welcomeLabel1);
         rootPane.getChildren().add(welcomeLabel2);
         rootPane.getChildren().add(clubNameLabel);
@@ -154,13 +230,20 @@ public class TournamentManagerGUI extends Application {
         rootPane.getChildren().add(clubParamTwo);
         rootPane.getChildren().add(clubParamTwoTextField);
         rootPane.getChildren().add(addMemberButton);
+        rootPane.getChildren().add(logoImageView);
+        rootPane.getChildren().add(tableViewListClub);
+        rootPane.getChildren().add(searchInput);
+        rootPane.getChildren().add(searchButton);
+        rootPane.getChildren().add(deleteButton);
+        rootPane.getChildren().add(deleteInput);
+        rootPane.getChildren().add(generateButton);
 
         //rootPane.getChildren().add(new ImageView(bgImg));
 
         primaryStage.setResizable(false); //Disable Resizing Window
         primaryStage.setTitle("Dashboard - Premier League");
         primaryStage.setAlwaysOnTop(true); //Set Conditions --> setAlwaysOnTop = true
-        primaryStage.setScene(new Scene(rootPane, 1500, 700));
+        primaryStage.setScene(new Scene(rootPane, 1350, 700));
         primaryStage.show();
     }
 
