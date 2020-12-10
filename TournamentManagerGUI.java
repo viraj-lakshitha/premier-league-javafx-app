@@ -36,15 +36,31 @@ public class TournamentManagerGUI extends Application {
         //Image bgImg = new Image("../PremierLeagueManagerBG.png"); TODO
 
         //UI Design
-        Rectangle blueRect1 = new Rectangle(450,700);
-        blueRect1.setFill(Color.rgb(137,165,247));
-        blueRect1.setLayoutX(0);
-        blueRect1.setLayoutY(0);
+        Separator separatorOne = new Separator();
+        separatorOne.setOrientation(Orientation.VERTICAL);
+        separatorOne.setPrefHeight(680);
+        separatorOne.setLayoutY(10);
+        separatorOne.setLayoutX(450);
 
-        Rectangle blueRect2 = new Rectangle(450,700);
-        blueRect2.setFill(Color.rgb(137,165,247));
-        blueRect2.setLayoutX(1350);
-        blueRect2.setLayoutY(0);
+        Separator separatorTwo = new Separator();
+        separatorTwo.setOrientation(Orientation.VERTICAL);
+        separatorTwo.setPrefHeight(680);
+        separatorTwo.setLayoutY(10);
+        separatorTwo.setLayoutX(1350);
+
+        Separator separatorThree = new Separator();
+        separatorThree.setOrientation(Orientation.HORIZONTAL);
+        separatorThree.setPrefWidth(350);
+        separatorThree.setLayoutY(130);
+        separatorThree.setLayoutX(1400);
+
+        //Add Background Image
+        Image bgImage = new Image("file:app-bg.png");
+        ImageView bgImageView = new ImageView(bgImage);
+        bgImageView.setLayoutX(0);
+        bgImageView.setLayoutY(0);
+        //bgImageView.setPreserveRatio(true);
+        //bgImageView.setFitWidth(300);
 
         //Welcome Note
         Label welcomeLabel1 = new Label("Welcome");
@@ -154,6 +170,7 @@ public class TournamentManagerGUI extends Application {
             }
         });
         //TODO : Find a Solution to the Code Duplication
+        //TODO : Add Vertical LineSeparator and Background Image
 
         //Adding Table to Display the List of Clubs
         TableView<SportClub> tableViewListClub = new TableView<>();
@@ -263,15 +280,8 @@ public class TournamentManagerGUI extends Application {
         selectOption.setPrefWidth(200);
         selectOption.getSelectionModel().select("About and Help");
         selectOption.getItems().addAll("About and Help","Delete Club","Display Club","Search Matches");
-        selectOption.setLayoutX(1480);
+        selectOption.setLayoutX(1475);
         selectOption.setLayoutY(50);
-
-        //Add LineSeparator
-        Line newLine = new Line();
-        newLine.setStartX(1400);
-        newLine.setEndX(1750);
-        newLine.setStartY(120);
-        newLine.setEndY(120);
 
         //ComboBox--> SelectOption Properties
         selectOption.setOnAction(e -> {
@@ -355,7 +365,7 @@ public class TournamentManagerGUI extends Application {
         Button generateButton = new Button("Generate New Club");
         generateButton.setLayoutY(600);
         generateButton.setLayoutX(980);
-        generateButton.setDisable(false);
+        generateButton.setDisable(true);
 
         //Save to Local Database Button
         Button saveLocal = new Button("Save to Database");
@@ -381,9 +391,11 @@ public class TournamentManagerGUI extends Application {
         });
 
         //Adding Elements to the Pane
-        rootPane.getChildren().add(blueRect1);
-        rootPane.getChildren().add(blueRect2);
-        rootPane.getChildren().add(newLine);
+        rootPane.getChildren().add(bgImageView);
+        rootPane.getChildren().add(separatorOne);
+        rootPane.getChildren().add(separatorTwo);
+        rootPane.getChildren().add(separatorThree);
+        rootPane.getChildren().add(logoImageView);
         rootPane.getChildren().add(welcomeLabel1);
         rootPane.getChildren().add(welcomeLabel2);
         rootPane.getChildren().add(clubNameLabel);
@@ -398,7 +410,6 @@ public class TournamentManagerGUI extends Application {
         rootPane.getChildren().add(clubParamTwo);
         rootPane.getChildren().add(clubParamTwoTextField);
         rootPane.getChildren().add(addMemberButton);
-        rootPane.getChildren().add(logoImageView);
         rootPane.getChildren().add(tableViewListClub);
         rootPane.getChildren().add(tableViewListMatch);
         rootPane.getChildren().add(searchClubButton);
