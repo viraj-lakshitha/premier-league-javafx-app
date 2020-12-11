@@ -1,39 +1,35 @@
 package com.courseWork.FinalFormativeSub;/*File Author : Viraj Lakshitha Bandara*/
 
-import com.courseWork.submissionFour.PremierLeagueManager;
 import com.courseWork.submissionFour.SportClub;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.InputStream;
 
 public class TournamentManagerGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        /*
+        * TODO : Implementation on Button
+        * Add Club , Delete , Two Tables , Display Clubs , Reset Button on Add Club ,
+        * Calendar Button on Match Date , Matches and Exit Button and All Sorting
+         * */
+
         //Main Pane
         Pane rootPane = new Pane();
-        //Image bgImg = new Image("../PremierLeagueManagerBG.png"); TODO
 
         //UI Design
         Separator separatorOne = new Separator();
