@@ -120,6 +120,16 @@ public class TournamentManagerGUI extends Application {
         Button addMemberButton = new Button("Add Club");
         addMemberButton.setPrefSize(180,30);
 
+        //Add Member Button Functionalities
+        addMemberButton.setOnAction( e -> {
+            if (clubTypeComboBox.getValue() == "School Club") {
+                //Add Member to the Array List
+
+            }else if (clubTypeComboBox.getValue() == "University Club") {
+
+            }
+        });
+
         clubParamOne.setVisible(false);
         clubParamOneTextField.setVisible(false);
         clubParamTwo.setVisible(false);

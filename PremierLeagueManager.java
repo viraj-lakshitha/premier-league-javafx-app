@@ -248,7 +248,7 @@ public class PremierLeagueManager implements LeagueManager {
             System.out.println("+---------------------------------------------------------+");
 
             for (MatchUpdate matchUpdate : listMatchDates) {
-                System.out.printf("%-18s%18s%18s%18s%15s",matchUpdate.getTeamOneName(),matchUpdate.getTeamOneScore(),matchUpdate.getTeamTwoName(),matchUpdate.getTeamTwoScore(),matchUpdate.getMatchDate())
+                System.out.printf("%-18s%18s%18s%18s%15s",matchUpdate.getTeamOneName(),matchUpdate.getTeamOneScore(),matchUpdate.getTeamTwoName(),matchUpdate.getTeamTwoScore(),matchUpdate.getMatchDate());
                 System.out.println("\n");
             }
             System.out.println("+----------------------------End of Table----------------------------------+");
