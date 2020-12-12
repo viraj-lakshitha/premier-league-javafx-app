@@ -1,12 +1,17 @@
 package com.courseWork.FinalFormativeSub;/*File Author : Viraj Lakshitha Bandara*/
 
-public class MatchUpdate {
+import java.io.Serializable;
+
+public class MatchUpdate implements Serializable {
 
     private String teamOneName;
     private String teamTwoName;
     private String matchDate;
     private int teamOneScore;
     private int teamTwoScore;
+
+    //To Ensure that same class used for the Serialization and Deserialization
+    private static final long serialVersionUID = 1L;
 
     //Constructor (Default)
     public MatchUpdate() { }

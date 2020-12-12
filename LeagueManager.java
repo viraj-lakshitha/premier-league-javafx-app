@@ -15,7 +15,7 @@ public interface LeagueManager {
     boolean validateDate(String dateIn);
 
     //To Implemented in Both Console GUI and JavaFx GUI
-    void randomMatchGenerator(String teamOneName, String teamTwoName,String dateMatch,int teamOneScore,int teamTwoScore);
+    void randomMatchGenerator();
     void searchMatches(String matchDate);
     void displayAllPlayedMatches();
 }

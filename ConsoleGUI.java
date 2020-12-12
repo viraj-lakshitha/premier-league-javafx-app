@@ -1,5 +1,7 @@
 package com.courseWork.FinalFormativeSub;/*File Author : Viraj Lakshitha Bandara*/
 
+import javafx.application.Application;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -24,6 +26,7 @@ public class ConsoleGUI {
         System.out.println("3 : Search existing football club\n");
         System.out.println("4 : View all club and their statistics\n");
         System.out.println("5 : Update match details\n");
+        System.out.println("6 : Open Dashboard GUI\n");
         System.out.println("0 : Save and Terminate Application\n>>");
     }
 
@@ -64,6 +67,9 @@ public class ConsoleGUI {
                     break;
                 case 5:
                     updateMatchDetails();
+                    break;
+                case 6:
+                    Application.launch(PremierLeagueGUI.class);
                     break;
                 case 0:
                     System.out.println("Thank you using the Premier League Application ! ");

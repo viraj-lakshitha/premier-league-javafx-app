@@ -11,6 +11,8 @@ public class PremierLeagueManager implements LeagueManager {
     static List<SportClub> listOfSportClubs = new ArrayList<>();
     static List<MatchUpdate> listMatchDates = new ArrayList<>();
     private static int numberOfDaysForMonth[] = {0,31,29,31,30,31,30,31,31,30,31,30,31};
+    static String teamOneGUI,teamTwoGUI,matchDateGUI;
+    static int teamOneScoreGUI,teamTwoScoreGUI;
 
     @Override
     public void addFootballClub(SportClub sportClub) {
@@ -151,40 +153,76 @@ public class PremierLeagueManager implements LeagueManager {
 
     @Override
     public void saveDataLocal() throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream("ClubDetails.txt");
+        FileOutputStream fileOutputStreamClub = new FileOutputStream("ClubDetails.txt");
         //Create new ObjectOutputStream
-        ObjectOutputStream objectOutputStreamOut = new ObjectOutputStream(fileOutputStream);
+        ObjectOutputStream objectOutputStreamClub = new ObjectOutputStream(fileOutputStreamClub);
 
         for (SportClub saveSportClub : listOfSportClubs) {
-            objectOutputStreamOut.writeObject(saveSportClub); //writeObject
+            objectOutputStreamClub.writeObject(saveSportClub); //writeObject
         }
-        objectOutputStreamOut.close(); //Close ObjectOutputStream
-        fileOutputStream.close(); //Close fileOutputStream
+        objectOutputStreamClub.close(); //Close ObjectOutputStream
+        fileOutputStreamClub.close(); //Close fileOutputStream
+
+        //Save Match Details
+        FileOutputStream fileOutputStreamMatch = new FileOutputStream("MatchDetails.txt");
+        //Create new ObjectOutputStream
+        ObjectOutputStream objectOutputStreamMatch = new ObjectOutputStream(fileOutputStreamMatch);
+
+        for (MatchUpdate matchUpdate : listMatchDates) {
+            objectOutputStreamMatch.writeObject(matchUpdate); //writeObject
+        }
+        objectOutputStreamMatch.close(); //Close ObjectOutputStream
+        fileOutputStreamMatch.close(); //Close fileOutputStream
 
     }
 
     @Override
     public void updateListFromData() {
+
+        //Update List - listOfSportClubs
         try {
-            FileInputStream fileInputStream = new FileInputStream("ClubDetails.txt");
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            FileInputStream fileInputStreamClub = new FileInputStream("ClubDetails.txt");
+            ObjectInputStream objectInputStreamClub = new ObjectInputStream(fileInputStreamClub);
 
             for (;;) {
                 try {
-                    SportClub existClub = (SportClub) objectInputStream.readObject();
+                    SportClub existClub = (SportClub) objectInputStreamClub.readObject();
                     listOfSportClubs.add(existClub);
                 }catch (EOFException e) {
                     break;
                 }
             }
 
-            objectInputStream.close();
-            fileInputStream.close();
+            objectInputStreamClub.close();
+            fileInputStreamClub.close();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         } catch (ClassNotFoundException classNotFound) {
             System.out.println("Class not found");
         }
+
+        //Update List - listMatchDates
+        try {
+            FileInputStream fileInputStreamMatch = new FileInputStream("MatchDetails.txt");
+            ObjectInputStream objectInputStreamMatch = new ObjectInputStream(fileInputStreamMatch);
+
+            for (;;) {
+                try {
+                    MatchUpdate existClub = (MatchUpdate) objectInputStreamMatch.readObject();
+                    listMatchDates.add(existClub);
+                }catch (EOFException e) {
+                    break;
+                }
+            }
+
+            objectInputStreamMatch.close();
+            fileInputStreamMatch.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        } catch (ClassNotFoundException classNotFound) {
+            System.out.println("Class not found");
+        }
+
     }
 
     @Override
@@ -198,24 +236,30 @@ public class PremierLeagueManager implements LeagueManager {
     }
 
     @Override
-    public void randomMatchGenerator(String teamOneName, String teamTwoName, String dateMatch, int teamOneScore, int teamTwoScore) {
-        Random randomGen = new Random();
+    public void randomMatchGenerator() {
 
-        List<String> clubNames = new ArrayList<>();
+        String teamOneName; String teamTwoName; String dateMatch; int teamOneScore; int teamTwoScore;
+        //Validate the listOfSportClubs Array lit, whether there are two or more group to generate the Match among two teamOneScore
+        if (listOfSportClubs.isEmpty() || listOfSportClubs.size() < 2 ) {
+            //Cannot Generate Matches Please Check the List
+        } else {
+            Random randomGen = new Random();
 
-        for (SportClub sportClub : listOfSportClubs) {
-            clubNames.add(sportClub.getNameSportClub());
+            List<String> clubNames = new ArrayList<>();
+
+            for (SportClub sportClub : listOfSportClubs) {
+                clubNames.add(sportClub.getNameSportClub());
+            }
+
+            teamOneName = clubNames.get(randomGen.nextInt(clubNames.size()));
+            teamTwoName = clubNames.get(randomGen.nextInt(clubNames.size()));
+            teamOneScore = randomScore(0,99);
+            teamTwoScore = randomScore(0,99);
+            dateMatch = createRandomDate(2000,2020);
+
+            //Update the MatchDetails
+            updateMatchDetails(teamOneName,teamTwoName,dateMatch,teamOneScore,teamTwoScore);
         }
-
-        teamOneName = clubNames.get(randomGen.nextInt(clubNames.size()));
-        teamTwoName = clubNames.get(randomGen.nextInt(clubNames.size()));
-        teamOneScore = randomScore(0,99);
-        teamTwoScore = randomScore(0,99);
-        dateMatch = createRandomDate(2000,2020);
-
-        //Update the MatchDetails
-        updateMatchDetails(teamOneName,teamTwoName,dateMatch,teamOneScore,teamTwoScore);
-
     }
 
     @Override
@@ -230,7 +274,14 @@ public class PremierLeagueManager implements LeagueManager {
                 System.out.println("Team 1 Score : "+matchUpdate.getTeamOneScore());
                 System.out.println("Team 2 Name : "+matchUpdate.getTeamTwoName());
                 System.out.println("Team 2 Score : "+matchUpdate.getTeamTwoScore());
-                System.out.println("Match Date : "+matchUpdate.getMatchDate());
+                System.out.println("Match Date : "+matchUpdate.getMatchDate()+"\n");
+
+                teamOneGUI = matchUpdate.getTeamOneName();
+                teamTwoGUI = matchUpdate.getTeamTwoName();
+                teamOneScoreGUI = matchUpdate.getTeamOneScore();
+                teamTwoScoreGUI = matchUpdate.getTeamTwoScore();
+                matchDateGUI = matchUpdate.getMatchDate();
+
             }
         }
         if (!matchFound) { //If Match Date didn't found, then pass the error message
