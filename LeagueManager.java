@@ -17,5 +17,6 @@ public interface LeagueManager {
     //To Implemented in Both Console GUI and JavaFx GUI
     void randomMatchGenerator();
     void searchMatches(String matchDate);
+    String returnSearchMatches();
     void displayAllPlayedMatches();
 }

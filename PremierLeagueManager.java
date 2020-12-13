@@ -204,7 +204,8 @@ public class PremierLeagueManager implements LeagueManager {
         //Update List - listMatchDates
         try {
             FileInputStream fileInputStreamMatch = new FileInputStream("MatchDetails.txt");
-            ObjectInputStream objectInputStreamMatch = new ObjectInputStream(fileInputStreamMatch);
+            ObjectInputStream objectInputStreamMatch = new
+                    ObjectInputStream(fileInputStreamMatch);
 
             for (;;) {
                 try {
@@ -264,11 +265,8 @@ public class PremierLeagueManager implements LeagueManager {
 
     @Override
     public void searchMatches(String matchDate) {
-        boolean matchFound = false;
-
         for (MatchUpdate matchUpdate : listMatchDates) {
             if (matchUpdate.getMatchDate().equals(matchDate)) {
-                matchFound = true;
                 //Match Details
                 System.out.println("Team 1 Name : "+matchUpdate.getTeamOneName());
                 System.out.println("Team 1 Score : "+matchUpdate.getTeamOneScore());
@@ -281,13 +279,15 @@ public class PremierLeagueManager implements LeagueManager {
                 teamOneScoreGUI = matchUpdate.getTeamOneScore();
                 teamTwoScoreGUI = matchUpdate.getTeamTwoScore();
                 matchDateGUI = matchUpdate.getMatchDate();
-
             }
         }
-        if (!matchFound) { //If Match Date didn't found, then pass the error message
-            System.out.println("No any match played in given date, Please Check the Date !");
-        }
     }
+
+    @Override
+    public String returnSearchMatches() {
+        return "Team One : "+teamOneGUI+"\nTeam One Score : "+teamOneScoreGUI+"\nTeam Two : "+teamTwoGUI+"\nTeam Two Score : "+teamTwoScoreGUI+"\nMatch Date : "+matchDateGUI;
+    }
+
 
     @Override
     public void displayAllPlayedMatches() {

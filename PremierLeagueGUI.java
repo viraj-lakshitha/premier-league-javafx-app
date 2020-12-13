@@ -14,10 +14,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class PremierLeagueGUI extends Application {
 
     static LeagueManager leagueManager = new PremierLeagueManager();
-    private static Label teamOneLabel,teamOneScoreLabel,teamTwoLabel,teamTwoScoreLabel,matchDateLabel;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -28,7 +29,7 @@ public class PremierLeagueGUI extends Application {
         Pane rootPane = new Pane();
 
         //Scroll Pane
-        ScrollPane matchDisplayPane = new ScrollPane();
+        Pane matchDisplayPane = new Pane();
         matchDisplayPane.setLayoutX(965);
         matchDisplayPane.setLayoutY(200);
         matchDisplayPane.setPrefWidth(320);
@@ -149,15 +150,21 @@ public class PremierLeagueGUI extends Application {
         searchMatchButton.setLayoutY(150);
         searchMatchButton.setLayoutX(1165);
 
+        //Search Result
+        Label searchResult = new Label();
+        searchResult.setVisible(false);
+        searchResult.setLayoutX(20);
+        searchResult.setLayoutY(20);
+
         searchMatchButton.setOnAction(e -> { //TODO
             //Passing Date Parameter
             leagueManager.searchMatches(searchMatchInput.getText());
             //TODO Check How to Pass the Parameters
-
+            searchResult.setVisible(true);
             MatchUpdate matchUpdate = new MatchUpdate();
 
             if (leagueManager.validateDate(searchMatchInput.getText())) {
-                //Pass Parameter
+                searchResult.setText(leagueManager.returnSearchMatches());
             } else {
                 //Return Invalid Input or Something
             }
@@ -195,12 +202,26 @@ public class PremierLeagueGUI extends Application {
         //generateButton Actions
         generateButton.setOnAction(e -> { //TODO : Real-Time Update or Try Another Method
             leagueManager.randomMatchGenerator();
+            //Refresh
+            tableViewListMatch.getItems().clear();
+
+            for (MatchUpdate matchUpdate : PremierLeagueManager.listMatchDates) {
+                tableViewListMatch.getItems().addAll(matchUpdate);
+            }
         });
 
         //Save to Local Database Button
         Button saveLocal = new Button("Save to Database");
         saveLocal.setLayoutY(600);
         saveLocal.setLayoutX(705);
+
+        saveLocal.setOnAction(e -> {
+            try {
+                leagueManager.saveDataLocal();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
 
         //Display Matches Details Button Properties
         displayMatch.setOnAction(e -> {
@@ -219,6 +240,9 @@ public class PremierLeagueGUI extends Application {
             displayMatch.setVisible(true);
             displayAllClub.setVisible(false);
         });
+
+        //Adding Elements to the ScrollPane
+        matchDisplayPane.getChildren().add(searchResult);
 
         //Adding Elements to the Pane
         rootPane.getChildren().add(bgImageView);
