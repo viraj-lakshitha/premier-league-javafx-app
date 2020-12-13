@@ -21,13 +21,14 @@ public class ConsoleGUI {
     //Display Application Menu
     private static void consoleMenu() {
         System.out.println("------Welcome to the Premier League Manager------\n");
-        System.out.println("1 : Create a new football club\n");
-        System.out.println("2 : Delete existing football club\n");
-        System.out.println("3 : Search existing football club\n");
-        System.out.println("4 : View all club and their statistics\n");
-        System.out.println("5 : Update match details\n");
-        System.out.println("6 : Open Dashboard GUI\n");
-        System.out.println("0 : Save and Terminate Application\n>>");
+        System.out.println("Option -> [ 1 ] : Create a new football club\n");
+        System.out.println("Option -> [ 2 ] : Delete existing football club\n");
+        System.out.println("Option -> [ 3 ] : Search existing football club\n");
+        System.out.println("Option -> [ 4 ] : View all club and their statistics\n");
+        System.out.println("Option -> [ 5 ] : Update match details\n");
+        System.out.println("Option -> [ 6 ] : Open Dashboard GUI\n");
+        System.out.println("Option -> [ 7 ] : View All Matches Played\n");
+        System.out.println("Option -> [ 0 ] : Save and Terminate Application\n>>");
     }
 
     public static void main(String[] args) throws IOException {
@@ -70,6 +71,9 @@ public class ConsoleGUI {
                     break;
                 case 6:
                     Application.launch(PremierLeagueGUI.class);
+                    break;
+                case 7:
+                    leagueManager.displayAllPlayedMatches();
                     break;
                 case 0:
                     System.out.println("Thank you using the Premier League Application ! ");

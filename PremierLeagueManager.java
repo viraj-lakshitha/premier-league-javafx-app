@@ -2,6 +2,7 @@ package com.courseWork.FinalFormativeSub;/*File Author : Viraj Lakshitha Bandara
 
 import java.io.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
@@ -294,16 +295,35 @@ public class PremierLeagueManager implements LeagueManager {
         if(listMatchDates.isEmpty()) {
             System.out.println("No any matches played !");
         } else { //If list contain played matches , then print all the matches played
-            System.out.println("+---------------------------------------------------------+");
+            System.out.println("+-------------------------------------------------------------------------------------------+");
             System.out.format("%-18s%18s%18s%18s%15s","Club One Name","Club One Score","Club Two Name","Club Two Score","Match Date");
-            System.out.println("+---------------------------------------------------------+");
+            System.out.println("\n+-------------------------------------------------------------------------------------------+");
+
+            //Sort by Match Date
+            sortDateFunction(listMatchDates);
 
             for (MatchUpdate matchUpdate : listMatchDates) {
                 System.out.printf("%-18s%18s%18s%18s%15s",matchUpdate.getTeamOneName(),matchUpdate.getTeamOneScore(),matchUpdate.getTeamTwoName(),matchUpdate.getTeamTwoScore(),matchUpdate.getMatchDate());
                 System.out.println("\n");
             }
-            System.out.println("+----------------------------End of Table----------------------------------+");
+            System.out.println("+----------------------------------End of Table----------------------------------------+");
         }
+    }
+
+    //Sorting According to the Match Date
+    private static void sortDateFunction(List<MatchUpdate> dateList) {
+        Collections.sort(dateList, new Comparator<MatchUpdate>() {
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            @Override
+            public int compare(MatchUpdate matchUpdate1, MatchUpdate matchUpdate2) {
+                try {
+                    return dateFormat.parse(matchUpdate1.getMatchDate()).compareTo(dateFormat.parse(matchUpdate2.getMatchDate()));
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        });
     }
 
     //TODO : Change the Method
