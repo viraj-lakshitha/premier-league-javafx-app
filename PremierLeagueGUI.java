@@ -15,6 +15,7 @@ import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Comparator;
 
 public class PremierLeagueGUI extends Application {
 
@@ -75,8 +76,8 @@ public class PremierLeagueGUI extends Application {
         separatorTwo.setLayoutX(900);
 
         //Adding Table to Display the List of Clubs
-        TableView<SportClub> tableViewListClub = new TableView<>();
-        final ObservableList<SportClub> listObserver = FXCollections.observableArrayList(PremierLeagueManager.listOfSportClubs);
+        TableView<FootballClub> tableViewListClub = new TableView<>();
+        final ObservableList<FootballClub> listObserver = FXCollections.observableArrayList(PremierLeagueManager.listOfSportClubs);
 
         TableColumn clubName = new TableColumn("Club Name");
         clubName.setMinWidth(150);
@@ -203,8 +204,6 @@ public class PremierLeagueGUI extends Application {
 
         //Help Label
         Label helpInfoLabel = new Label();
-//        helpInfoLabel.setLayoutY(90);
-//        helpInfoLabel.setLayoutX(1020);
         helpInfoLabel.setFont(Font.font("Tahoma", FontPosture.ITALIC, 12));
         helpInfoLabel.setText("1.\tUser of Premier League Dashboard Can View all the Club\nDetails and Matches Played by the Teams (By Clicking the\n“Display All Matches” Button)\n\n" +
                 "2.\tBy Clicking “Sort by Win” button, User can sort clubs\naccording to the clubs as they won matches.\n\n" +
@@ -238,9 +237,8 @@ public class PremierLeagueGUI extends Application {
 
         //Sort by Wins Button Properties
         sortWins.setOnAction(e -> {
-            tableViewListClub.setItems(listObserver);
-            wins.setSortType(TableColumn.SortType.DESCENDING);
-            tableViewListClub.getSortOrder().add(wins);
+            Comparator<FootballClub> columnComparator = (fbClub1, fbClub2) -> fbClub1.getNumberOfClubWins() - fbClub1.getNumberOfClubWins();
+            wins.setComparator(columnComparator);
         });
 
         //Sort to Goal Scored Button
@@ -251,9 +249,8 @@ public class PremierLeagueGUI extends Application {
 
         //Sort by Goals Scored Button Properties
         sortGoal.setOnAction(e -> {
-            tableViewListClub.setItems(listObserver);
-            score.setSortType(TableColumn.SortType.DESCENDING);
-            tableViewListClub.getSortOrder().add(score);
+            Comparator<FootballClub> columnComparator = (fbClub1, fbClub2) -> fbClub1.getNumberOfGoalScored() - fbClub1.getNumberOfGoalScored();
+            score.setComparator(columnComparator);
         });
 
         //Random Club Generate Button

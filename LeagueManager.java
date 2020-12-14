@@ -6,7 +6,7 @@ import java.util.List;
 public interface LeagueManager {
 
     //To Implemented in JavaFx GUI
-    void addFootballClub(SportClub sportClub) throws IOException;
+    void addFootballClub(FootballClub sportClub) throws IOException;
     void deleteFootballClub(String name);
     void displayClubDetails(String name);
     void displayAllClubDetails();
@@ -21,6 +21,6 @@ public interface LeagueManager {
     String returnSearchMatches();
     void displayAllPlayedMatches();
     void sortDateFunction(List<MatchUpdate> dateList);
-    void sortWinFunction(List<SportClub> sportClub);
-    void sortScoreFunction(List<SportClub> sportClub);
+    void sortWinFunction(List<FootballClub> sportClub);
+    void sortScoreFunction(List<FootballClub> sportClub);
 }

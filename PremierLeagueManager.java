@@ -4,19 +4,18 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 public class PremierLeagueManager implements LeagueManager {
 
-    static List<SportClub> listOfSportClubs = new ArrayList<>();
+    static List<FootballClub> listOfSportClubs = new ArrayList<>();
     static List<MatchUpdate> listMatchDates = new ArrayList<>();
     private static int numberOfDaysForMonth[] = {0,31,29,31,30,31,30,31,31,30,31,30,31};
     static String teamOneGUI,teamTwoGUI,matchDateGUI;
     static int teamOneScoreGUI,teamTwoScoreGUI;
 
     @Override
-    public void addFootballClub(SportClub sportClub) {
+    public void addFootballClub(FootballClub sportClub) {
         //Validate the User Inputs ; Whether club already exit or not
         if(listOfSportClubs.contains(sportClub)) {
             System.out.println("Club Already Registered ! Please Check Details"); //If exist pass the error message
@@ -29,7 +28,7 @@ public class PremierLeagueManager implements LeagueManager {
     public void deleteFootballClub(String name) {
         boolean found = false;
 
-        for (SportClub sportClub : listOfSportClubs) {
+        for (FootballClub sportClub : listOfSportClubs) {
             if(sportClub.getNameSportClub().equals(name)) { //If club found, remove from the ArrayList
                 found = true;
                 listOfSportClubs.remove(sportClub);
@@ -46,7 +45,7 @@ public class PremierLeagueManager implements LeagueManager {
     public void displayClubDetails(String name) {
         boolean clubFound = false;
 
-        for (SportClub sportClub : listOfSportClubs) {
+        for (FootballClub sportClub : listOfSportClubs) {
             if(sportClub.getNameSportClub().equals(name)) { //If club found, remove from the ArrayList
                 clubFound = true;
                 System.out.println("Club Name : "+sportClub.getNameSportClub()+"\nNo. of Matches Played : "+((FootballClub) sportClub).getNumberOfMatchesPlayed()+"\nNo. of Matches Win : "+
@@ -71,21 +70,21 @@ public class PremierLeagueManager implements LeagueManager {
             * Reference : Java Documentation (https://docs.oracle.com/javase/tutorial/java/data/numberformat.html)
             * Reference Code : System.out.format("%tB %te, %tY%n", c, c, c); // -->  "May 29, 2006"
             * */
-            System.out.println("+---------------------------------------------------------------------+");
+            System.out.println("+-------------------------------------------------------------------------+");
             System.out.format("%-15s%8s%8s%8s%8s%10s%10s%7s","Club Name","Played","Wins","Draws","Loss","Recived","Score","Points");
-            System.out.println("\n"+"+---------------------------------------------------------------------+");
+            System.out.println("\n"+"+-------------------------------------------------------------------------+");
 
             //Sort List According to Number of Points if Points Equal Then consider the Score Difference
-            listOfSportClubs.sort(Collections.reverseOrder());
+            Collections.sort(listOfSportClubs);
 
-            for (SportClub sportClub : listOfSportClubs) {
+            for (FootballClub sportClub : listOfSportClubs) {
                 System.out.printf("%-15s%8s%8s%8s%8s%10s%10s%7s",sportClub.getNameSportClub(),((FootballClub) sportClub).getNumberOfMatchesPlayed(),
                         ((FootballClub) sportClub).getNumberOfClubWins(),((FootballClub) sportClub).getNumberOfClubDraw(),
                         ((FootballClub) sportClub).getNumberOfClubDefeat(),((FootballClub) sportClub).getNumberOfGoalRecived(),
                         ((FootballClub) sportClub).getNumberOfGoalScored(),((FootballClub) sportClub).getNumberOfPoints());
                 System.out.println("\n");
             }
-            System.out.println("***---------------------------End of table--------------------------***");
+            System.out.println("***-----------------------------End of table----------------------------***");
 
         }
     }
@@ -97,14 +96,14 @@ public class PremierLeagueManager implements LeagueManager {
 
         boolean homeTeamFound = false, visitorTeamFound = false;
 
-        for (SportClub sp1 : listOfSportClubs) {
+        for (FootballClub sp1 : listOfSportClubs) {
             if (sp1.getNameSportClub().equals(teamOneName)) {
                 homeSportClub = (FootballClub) sp1;
                 homeTeamFound = true;
             }
         }
 
-        for (SportClub sp2 : listOfSportClubs){
+        for (FootballClub sp2 : listOfSportClubs){
             if(sp2.getNameSportClub().equals(teamTwoName)) {
                 visitorSportClub = (FootballClub) sp2;
                 visitorTeamFound=true;
@@ -158,7 +157,7 @@ public class PremierLeagueManager implements LeagueManager {
         //Create new ObjectOutputStream
         ObjectOutputStream objectOutputStreamClub = new ObjectOutputStream(fileOutputStreamClub);
 
-        for (SportClub saveSportClub : listOfSportClubs) {
+        for (FootballClub saveSportClub : listOfSportClubs) {
             objectOutputStreamClub.writeObject(saveSportClub); //writeObject
         }
         objectOutputStreamClub.close(); //Close ObjectOutputStream
@@ -187,7 +186,7 @@ public class PremierLeagueManager implements LeagueManager {
 
             for (;;) {
                 try {
-                    SportClub existClub = (SportClub) objectInputStreamClub.readObject();
+                    FootballClub existClub = (FootballClub) objectInputStreamClub.readObject();
                     listOfSportClubs.add(existClub);
                 }catch (EOFException e) {
                     break;
@@ -249,7 +248,7 @@ public class PremierLeagueManager implements LeagueManager {
 
             List<String> clubNames = new ArrayList<>();
 
-            for (SportClub sportClub : listOfSportClubs) {
+            for (FootballClub sportClub : listOfSportClubs) {
                 clubNames.add(sportClub.getNameSportClub());
             }
 
@@ -328,13 +327,19 @@ public class PremierLeagueManager implements LeagueManager {
     }
 
     @Override
-    public void sortWinFunction(List<SportClub> sportClub) {
-
+    public void sortWinFunction(List<FootballClub> sportClub) {
+        Collections.sort(sportClub, (fbClub1, fbClub2) -> fbClub1.getNumberOfClubWins() - fbClub1.getNumberOfClubWins());
     }
 
     @Override
-    public void sortScoreFunction(List<SportClub> sportClub) {
-
+    public void sortScoreFunction(List<FootballClub> sportClub) {
+//        Collections.sort(sportClub, new Comparator<FootballClub>() {
+//
+//            @Override
+//            public int compare(FootballClub fbClub1, FootballClub fbClub2) {
+//                //return "sdf";
+//            }
+//        });
     }
 
     //TODO : Change the Method
