@@ -1,11 +1,8 @@
 package com.courseWork.FinalFormativeSub;/*File Author : Viraj Lakshitha Bandara*/
 
 import javafx.application.Application;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 //Console Graphical User Interface
@@ -14,8 +11,6 @@ public class ConsoleGUI {
     static final Scanner USER_IN = new Scanner(System.in);
     static LeagueManager leagueManager = new PremierLeagueManager();
     private static boolean checkType;
-    static FootballClub footballClub = new FootballClub();
-    static MatchUpdate newMatch;
 
 
     //Display Application Menu
@@ -189,7 +184,7 @@ public class ConsoleGUI {
                 String uniName = capitalizeFirstLetter(inputThree);
 
                 System.out.println("Please Enter University Registration Number : ");
-                int uniRegNum; //TODO : Integer Validation
+                int uniRegNum;
 
                 while (true) {
                     try {

@@ -1,6 +1,7 @@
 package com.courseWork.FinalFormativeSub;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface LeagueManager {
 
@@ -19,4 +20,7 @@ public interface LeagueManager {
     void searchMatches(String matchDate);
     String returnSearchMatches();
     void displayAllPlayedMatches();
+    void sortDateFunction(List<MatchUpdate> dateList);
+    void sortWinFunction(List<SportClub> sportClub);
+    void sortScoreFunction(List<SportClub> sportClub);
 }

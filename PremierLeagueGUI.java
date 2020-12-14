@@ -24,7 +24,6 @@ public class PremierLeagueGUI extends Application {
     public void start(Stage primaryStage) {
 
         //TODO : Validation Date and Only one date can have One Match ,, Sorting on compareTo and Check default
-        //TODO : Implement Match Date CompareTo in JavaFX table
 
         //Main Pane
         Pane rootPane = new Pane();
@@ -125,6 +124,7 @@ public class PremierLeagueGUI extends Application {
 
         //Adding Table to Display the List of Match Details
         TableView<MatchUpdate> tableViewListMatch = new TableView<>();
+        leagueManager.sortDateFunction(PremierLeagueManager.listMatchDates);
         final ObservableList<MatchUpdate> listObserverMatches = FXCollections.observableArrayList(PremierLeagueManager.listMatchDates);
 
         TableColumn clubOneMatch = new TableColumn("Club One");
@@ -177,12 +177,18 @@ public class PremierLeagueGUI extends Application {
 
         searchMatchButton.setOnAction(e -> {
             //Passing Date Parameter
-            leagueManager.searchMatches(searchMatchInput.getText());
             searchResult.setVisible(true);
-            MatchUpdate matchUpdate = new MatchUpdate();
 
             if (leagueManager.validateDate(searchMatchInput.getText())) {
-                searchResult.setText(leagueManager.returnSearchMatches());
+                //For Loop
+                for (MatchUpdate matchUpdate : PremierLeagueManager.listMatchDates ) {
+                    if (matchUpdate.getMatchDate().contains(searchMatchInput.getText())) {
+                        searchResult.setText(leagueManager.returnSearchMatches());
+                    } else {
+                        searchMatchInput.setStyle("-fx-border-color: #ff0000");
+                        searchResult.setText("Not Found");
+                    }
+                }
             } else {
                 searchMatchInput.setStyle("-fx-border-color: #ff0000");
             }

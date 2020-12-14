@@ -311,7 +311,8 @@ public class PremierLeagueManager implements LeagueManager {
     }
 
     //Sorting According to the Match Date
-    private static void sortDateFunction(List<MatchUpdate> dateList) {
+    @Override
+    public void sortDateFunction(List<MatchUpdate> dateList) {
         Collections.sort(dateList, new Comparator<MatchUpdate>() {
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -324,6 +325,16 @@ public class PremierLeagueManager implements LeagueManager {
                 }
             }
         });
+    }
+
+    @Override
+    public void sortWinFunction(List<SportClub> sportClub) {
+
+    }
+
+    @Override
+    public void sortScoreFunction(List<SportClub> sportClub) {
+
     }
 
     //TODO : Change the Method
