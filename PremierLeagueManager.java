@@ -151,6 +151,9 @@ public class PremierLeagueManager implements LeagueManager {
         }
     }
 
+    /*Method to Save Data Locally
+    * In here I used two file handling for Club Details and Match Updates separately
+    * */
     @Override
     public void saveDataLocal() throws IOException {
         FileOutputStream fileOutputStreamClub = new FileOutputStream("ClubDetails.txt");
@@ -176,6 +179,7 @@ public class PremierLeagueManager implements LeagueManager {
 
     }
 
+    //Method to Update the List
     @Override
     public void updateListFromData() {
 
@@ -226,6 +230,7 @@ public class PremierLeagueManager implements LeagueManager {
 
     }
 
+    //Validate the Match Date Input
     @Override
     public boolean validateDate(String dateIn) {
         if (validateDateFormat(dateIn) == true) {
@@ -236,9 +241,9 @@ public class PremierLeagueManager implements LeagueManager {
         }
     }
 
+    //Generate Random Matches
     @Override
     public void randomMatchGenerator() {
-
         String teamOneName; String teamTwoName; String dateMatch; int teamOneScore; int teamTwoScore;
         //Validate the listOfSportClubs Array lit, whether there are two or more group to generate the Match among two teamOneScore
         if (listOfSportClubs.isEmpty() || listOfSportClubs.size() < 2 ) {
@@ -253,16 +258,18 @@ public class PremierLeagueManager implements LeagueManager {
             }
 
             teamOneName = clubNames.get(randomGen.nextInt(clubNames.size()));
+            clubNames.remove(teamOneName); // Remove added Club Name , Because Club can be repeated
             teamTwoName = clubNames.get(randomGen.nextInt(clubNames.size()));
             teamOneScore = randomScore(0,99);
             teamTwoScore = randomScore(0,99);
-            dateMatch = createRandomDate(2000,2020);
+            dateMatch = randomDate(2000,2020);
 
             //Update the MatchDetails
             updateMatchDetails(teamOneName,teamTwoName,dateMatch,teamOneScore,teamTwoScore);
         }
     }
 
+    //Method to search played matches
     @Override
     public void searchMatches(String matchDate) {
         for (MatchUpdate matchUpdate : listMatchDates) {
@@ -283,12 +290,13 @@ public class PremierLeagueManager implements LeagueManager {
         }
     }
 
+    //Method to return the search result of the match played
     @Override
     public String returnSearchMatches() {
         return "Team One : "+teamOneGUI+"\nTeam One Score : "+teamOneScoreGUI+"\nTeam Two : "+teamTwoGUI+"\nTeam Two Score : "+teamTwoScoreGUI+"\nMatch Date : "+matchDateGUI;
     }
 
-
+    //Display All the Matches Played
     @Override
     public void displayAllPlayedMatches() {
         if(listMatchDates.isEmpty()) {
@@ -326,36 +334,17 @@ public class PremierLeagueManager implements LeagueManager {
         });
     }
 
-    @Override
-    public void sortWinFunction(List<FootballClub> sportClub) {
-        Collections.sort(sportClub, (fbClub1, fbClub2) -> fbClub1.getNumberOfClubWins() - fbClub1.getNumberOfClubWins());
-    }
-
-    @Override
-    public void sortScoreFunction(List<FootballClub> sportClub) {
-//        Collections.sort(sportClub, new Comparator<FootballClub>() {
-//
-//            @Override
-//            public int compare(FootballClub fbClub1, FootballClub fbClub2) {
-//                //return "sdf";
-//            }
-//        });
-    }
-
-    //TODO : Change the Method
-    public static int createRandomIntBetween(int start, int end) {
-        return start + (int) Math.round(Math.random() * (end - start));
-    }
-
+    //Generate Random Score from given range
     public static int randomScore(int startInt,int endInt) {
-        int clubScore = createRandomIntBetween(startInt,endInt);
+        int clubScore = startInt + (int) Math.round(Math.random() * (endInt - startInt));
         return clubScore;
     }
 
-    public static String createRandomDate(int startYear, int endYear) {
-        int day = createRandomIntBetween(1, 28);
-        int month = createRandomIntBetween(1, 12);
-        int year = createRandomIntBetween(startYear, endYear);
+    //Generate random date from given startYear and endYear
+    public static String randomDate(int startYear, int endYear) {
+        int year = startYear + (int) Math.round(Math.random() * (endYear - startYear));
+        int month = 1 + (int) Math.round(Math.random() * (12 - 1));
+        int day = 1 + (int) Math.round(Math.random() * (28 - 1));
         return year+"/"+month+"/"+day;
     }
 

@@ -24,7 +24,8 @@ public class PremierLeagueGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        //TODO : Validation Date and Only one date can have One Match ,, Sorting on compareTo and Check default
+        //TODO : Validation Date
+        //TODO : Open JavaFX more than once
 
         //Main Pane
         Pane rootPane = new Pane();
@@ -79,9 +80,9 @@ public class PremierLeagueGUI extends Application {
         TableView<FootballClub> tableViewListClub = new TableView<>();
         final ObservableList<FootballClub> listObserver = FXCollections.observableArrayList(PremierLeagueManager.listOfSportClubs);
 
-        TableColumn clubName = new TableColumn("Club Name");
+        TableColumn clubName = new TableColumn<FootballClub, Object>("Club Name");
         clubName.setMinWidth(150);
-        clubName.setCellValueFactory(new PropertyValueFactory("nameSportClub"));
+        clubName.setCellValueFactory(new PropertyValueFactory<FootballClub, Object>("nameSportClub"));
 
         TableColumn played = new TableColumn("Played");
         played.setMinWidth(75);
@@ -128,9 +129,9 @@ public class PremierLeagueGUI extends Application {
         leagueManager.sortDateFunction(PremierLeagueManager.listMatchDates);
         final ObservableList<MatchUpdate> listObserverMatches = FXCollections.observableArrayList(PremierLeagueManager.listMatchDates);
 
-        TableColumn clubOneMatch = new TableColumn("Club One");
+        TableColumn clubOneMatch = new TableColumn<MatchUpdate, Object>("Club One");
         clubOneMatch.setMinWidth(150);
-        clubOneMatch.setCellValueFactory(new PropertyValueFactory("teamOneName"));
+        clubOneMatch.setCellValueFactory(new PropertyValueFactory<MatchUpdate, Object>("teamOneName"));
 
         TableColumn clubOneMatchScore = new TableColumn("Club Score");
         clubOneMatchScore.setMinWidth(100);
@@ -237,7 +238,7 @@ public class PremierLeagueGUI extends Application {
 
         //Sort by Wins Button Properties
         sortWins.setOnAction(e -> {
-            Comparator<FootballClub> columnComparator = (fbClub1, fbClub2) -> fbClub1.getNumberOfClubWins() - fbClub1.getNumberOfClubWins();
+            Comparator<FootballClub> columnComparator = Comparator.comparingInt(FootballClub::getNumberOfClubWins); //TODO
             wins.setComparator(columnComparator);
         });
 
@@ -249,7 +250,7 @@ public class PremierLeagueGUI extends Application {
 
         //Sort by Goals Scored Button Properties
         sortGoal.setOnAction(e -> {
-            Comparator<FootballClub> columnComparator = (fbClub1, fbClub2) -> fbClub1.getNumberOfGoalScored() - fbClub1.getNumberOfGoalScored();
+            Comparator<FootballClub> columnComparator = Comparator.comparingInt(FootballClub::getNumberOfGoalScored); //TODO
             score.setComparator(columnComparator);
         });
 
@@ -398,4 +399,6 @@ public class PremierLeagueGUI extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
 }

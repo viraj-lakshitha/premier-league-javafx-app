@@ -21,6 +21,4 @@ public interface LeagueManager {
     String returnSearchMatches();
     void displayAllPlayedMatches();
     void sortDateFunction(List<MatchUpdate> dateList);
-    void sortWinFunction(List<FootballClub> sportClub);
-    void sortScoreFunction(List<FootballClub> sportClub);
 }
