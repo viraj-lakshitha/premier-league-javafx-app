@@ -24,9 +24,6 @@ public class PremierLeagueGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        //TODO : Validation Date
-        //TODO : Open JavaFX more than once
-
         //Main Pane
         Pane rootPane = new Pane();
 
@@ -112,11 +109,6 @@ public class PremierLeagueGUI extends Application {
         points.setMinWidth(75);
         points.setCellValueFactory(new PropertyValueFactory("numberOfPoints"));
 
-        //Table Properties
-        /*
-        * Reference : https://www.superglobals.net/remove-extra-column-tableview-javafx/
-        * Referred Code : tableViewListClub.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        * */
         tableViewListClub.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableViewListClub.setItems(listObserver);
         tableViewListClub.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -184,8 +176,9 @@ public class PremierLeagueGUI extends Application {
             if (leagueManager.validateDate(searchMatchInput.getText())) {
                 //For Loop
                 for (MatchUpdate matchUpdate : PremierLeagueManager.listMatchDates ) {
-                    if (matchUpdate.getMatchDate().contains(searchMatchInput.getText())) {
-                        searchResult.setText(leagueManager.returnSearchMatches());
+                    if (matchUpdate.getMatchDate().equals(searchMatchInput.getText())) {
+                        searchResult.setText(leagueManager.searchMatches(searchMatchInput.getText()));
+                        searchMatchInput.setStyle("-fx-border-color: #000");
                     } else {
                         searchMatchInput.setStyle("-fx-border-color: #ff0000");
                         searchResult.setText("Not Found");
@@ -206,13 +199,14 @@ public class PremierLeagueGUI extends Application {
         //Help Label
         Label helpInfoLabel = new Label();
         helpInfoLabel.setFont(Font.font("Tahoma", FontPosture.ITALIC, 12));
-        helpInfoLabel.setText("1.\tUser of Premier League Dashboard Can View all the Club\nDetails and Matches Played by the Teams (By Clicking the\n“Display All Matches” Button)\n\n" +
-                "2.\tBy Clicking “Sort by Win” button, User can sort clubs\naccording to the clubs as they won matches.\n\n" +
-                "3.\tBy Clicking “Sort by Score” button, User can sort clubs\naccording to the clubs as they goal scored in matches.\n\n" +
-                "4.\tBy Clicking “Generate Matches” button, User can generate\nrandom matches among the existing teams\n\n" +
-                "5.\tBy Clicking “Save to Database” button, User can save\ngenerated matches to the Database\n\n" +
+        helpInfoLabel.setText("1.\tUser of Premier League Dashboard Can View all the Club\nDetails and Matches Played by the Teams (By Clicking the\nDisplay All Matches Button)\n\n" +
+                "2.\tBy Clicking Sort by Win button, User can sort clubs\naccording to the clubs as they won matches.\n\n" +
+                "3.\tBy Clicking Sort by Score button, User can sort clubs\naccording to the clubs as they goal scored in matches.\n\n" +
+                "4.\tBy Clicking Generate Matches button, User can generate\nrandom matches among the existing teams\n\n" +
+                "5.\tBy Clicking Save to Database button, User can save\ngenerated matches to the Database\n\n" +
                 "6.\tUser can search matches by adding the year, month and\ndate of the match played but user should follow the Date Format.\n\n" +
-                "7.\tFor one certain date, only can have one match.");
+                "7.\tFor one certain date, only can have one match.\n\n" +
+                "8.\tIf user exit or quit application without save then, data will lost");
         helpInfoLabel.setVisible(false);
 
         //Display All Matches Played Button
@@ -238,8 +232,8 @@ public class PremierLeagueGUI extends Application {
 
         //Sort by Wins Button Properties
         sortWins.setOnAction(e -> {
-            Comparator<FootballClub> columnComparator = Comparator.comparingInt(FootballClub::getNumberOfClubWins); //TODO
-            wins.setComparator(columnComparator);
+            Comparator<FootballClub> comparator = Comparator.comparingInt(FootballClub::getNumberOfClubWins);
+            listObserver.sort(comparator.reversed());
         });
 
         //Sort to Goal Scored Button
@@ -250,8 +244,8 @@ public class PremierLeagueGUI extends Application {
 
         //Sort by Goals Scored Button Properties
         sortGoal.setOnAction(e -> {
-            Comparator<FootballClub> columnComparator = Comparator.comparingInt(FootballClub::getNumberOfGoalScored); //TODO
-            score.setComparator(columnComparator);
+            Comparator<FootballClub> comparator = Comparator.comparingInt(FootballClub::getNumberOfGoalScored);
+            listObserver.sort(comparator.reversed());
         });
 
         //Random Club Generate Button

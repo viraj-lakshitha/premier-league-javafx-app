@@ -1,9 +1,6 @@
 package com.courseWork.FinalFormativeSub;/*File Author : Viraj Lakshitha Bandara*/
 
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -27,6 +24,7 @@ public class ConsoleGUI {
         System.out.println("Option -> [ 6 ] : Open Dashboard GUI\n");
         System.out.println("Option -> [ 7 ] : View All Matches Played\n");
         System.out.println("Option -> [ 8 ] : Search Matches Played\n");
+        System.out.println("Option -> [ 9 ] : Help\n");
         System.out.println("Option -> [ 0 ] : Save and Terminate Application\n>>");
     }
 
@@ -70,12 +68,15 @@ public class ConsoleGUI {
                     break;
                 case 6:
                     Application.launch(PremierLeagueGUI.class);
-                    break;
+                    break displayMenuLoop;
                 case 7:
                     leagueManager.displayAllPlayedMatches();
                     break;
                 case 8:
                     searchMatchesByDate();
+                    break;
+                case 9:
+                    helpWindow();
                     break;
                 case 0:
                     System.out.println("Thank you using the Premier League Application ! ");
@@ -85,7 +86,23 @@ public class ConsoleGUI {
                     System.out.println("Invalid Option ! Please Check");
             }
         }
+    }
 
+    private static void helpWindow() {
+        System.out.println("***---Application Help---***\n\n" +
+                "1.\tPremier League Tournament Application helps to perform CRUD operations as Add Club, Delete Club,\n" +
+                "Update Match Details etc...\n\n" +
+                "2.\tWhen add new club to the application, user should provide the Club Name, Location, Club Type and\n" +
+                "Two Parameters respective to the Club Type.\n\n" +
+                "3.\tWhen deleting the existing club user should provide the club and delete the club details and statistics.\n\n" +
+                "4.\tUser can view all the club details and played match details and match details are sorted to the" +
+                "Match Date.\n\n" +
+                "5.\tUser can update match details and in here user should follow the order of date format as dd/MM/yyyy\n" +
+                "and month should contain two digits (E.g.: 09 -> for September) and for the day.\n\n" +
+                "6.\tWhen searching for a played match user should provide the match date according to the above order,\n" +
+                "If not display error message.\n\n" +
+                "7.\tIf user quit application without pressing 0 in options, added data will be lost. Therefore, user\n" +
+                "should quit the application only via selecting the Quit Application method.\n\n");
     }
 
     private static void searchMatchesByDate() {
@@ -94,7 +111,6 @@ public class ConsoleGUI {
 
         //Validate the Date Format and Date using validateDate() method in PremierLeagueManager
         boolean validity = leagueManager.validateDate(dateMatch);
-
 
         while (validity != true) {
             System.out.print(">> ");
@@ -250,26 +266,5 @@ public class ConsoleGUI {
         String outputWord = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
         return outputWord;
     }
-
-    //TODO
-//    public static void callApplication(Class<? extends  Application> javaFxClass) {
-//        boolean isApplicationLaunch = false;
-//
-//        if (!isApplicationLaunch){
-//            Platform.setImplicitExit(false);
-//            new Thread(() -> Application.launch(javaFxClass)).start();
-//            isApplicationLaunch = true;
-//        } else {
-//            Platform.runLater(() -> {
-//                try{
-//                    Application javaFXApplication = javaFxClass.newInstance();
-//                    Stage primaryLaunchStage = new Stage();
-//                    javaFXApplication.start(primaryLaunchStage);
-//                } catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            });
-//        }
-//    }
 
 }

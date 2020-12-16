@@ -48,10 +48,10 @@ public class PremierLeagueManager implements LeagueManager {
         for (FootballClub sportClub : listOfSportClubs) {
             if(sportClub.getNameSportClub().equals(name)) { //If club found, remove from the ArrayList
                 clubFound = true;
-                System.out.println("Club Name : "+sportClub.getNameSportClub()+"\nNo. of Matches Played : "+((FootballClub) sportClub).getNumberOfMatchesPlayed()+"\nNo. of Matches Win : "+
-                        ((FootballClub) sportClub).getNumberOfClubWins()+"\nNo. of Matches Draw : "+((FootballClub) sportClub).getNumberOfClubDraw()+"\nNo. of Matches Loss : "+
-                        ((FootballClub) sportClub).getNumberOfClubDefeat()+"\nNo. of Goals Recived : "+((FootballClub) sportClub).getNumberOfGoalRecived()+"\nNo. of Matches Goal Score : "+
-                        ((FootballClub) sportClub).getNumberOfGoalScored()+"\nNo. of Match Points : "+((FootballClub) sportClub).getNumberOfPoints()+"\n");
+                System.out.println("Club Name : "+sportClub.getNameSportClub()+"\nLocation : "+ sportClub.getLocationSportClub()+"\nNo. of Matches Played : "+ sportClub.getNumberOfMatchesPlayed()+"\nNo. of Matches Win : "+
+                        sportClub.getNumberOfClubWins()+"\nNo. of Matches Draw : "+ sportClub.getNumberOfClubDraw()+"\nNo. of Matches Loss : "+
+                        sportClub.getNumberOfClubDefeat()+"\nNo. of Goals Recived : "+ sportClub.getNumberOfGoalRecived()+"\nNo. of Matches Goal Score : "+
+                        sportClub.getNumberOfGoalScored()+"\nNo. of Match Points : "+ sportClub.getNumberOfPoints()+"\n");
                 break;
             }
         }
@@ -246,8 +246,9 @@ public class PremierLeagueManager implements LeagueManager {
     public void randomMatchGenerator() {
         String teamOneName; String teamTwoName; String dateMatch; int teamOneScore; int teamTwoScore;
         //Validate the listOfSportClubs Array lit, whether there are two or more group to generate the Match among two teamOneScore
-        if (listOfSportClubs.isEmpty() || listOfSportClubs.size() < 2 ) {
+        if (listOfSportClubs.isEmpty() || listOfSportClubs.size() < 2) {
             //Cannot Generate Matches Please Check the List
+            System.out.println("Please Add Clubs More Clubs to Generate Matches");
         } else {
             Random randomGen = new Random();
 
@@ -258,11 +259,11 @@ public class PremierLeagueManager implements LeagueManager {
             }
 
             teamOneName = clubNames.get(randomGen.nextInt(clubNames.size()));
-            clubNames.remove(teamOneName); // Remove added Club Name , Because Club can be repeated
+            clubNames.remove(teamOneName); // Remove added Club Name , Because Club can be repeated to the Team 2
             teamTwoName = clubNames.get(randomGen.nextInt(clubNames.size()));
-            teamOneScore = randomScore(0,99);
-            teamTwoScore = randomScore(0,99);
-            dateMatch = randomDate(2000,2020);
+            teamOneScore = randomScore(0,25);
+            teamTwoScore = randomScore(0,25);
+            dateMatch = randomDate(2015,2020);
 
             //Update the MatchDetails
             updateMatchDetails(teamOneName,teamTwoName,dateMatch,teamOneScore,teamTwoScore);
@@ -271,7 +272,8 @@ public class PremierLeagueManager implements LeagueManager {
 
     //Method to search played matches
     @Override
-    public void searchMatches(String matchDate) {
+    public String searchMatches(String matchDate) {
+
         for (MatchUpdate matchUpdate : listMatchDates) {
             if (matchUpdate.getMatchDate().equals(matchDate)) {
                 //Match Details
@@ -288,6 +290,8 @@ public class PremierLeagueManager implements LeagueManager {
                 matchDateGUI = matchUpdate.getMatchDate();
             }
         }
+        //Return result to the GUI
+        return returnSearchMatches();
     }
 
     //Method to return the search result of the match played
@@ -302,9 +306,9 @@ public class PremierLeagueManager implements LeagueManager {
         if(listMatchDates.isEmpty()) {
             System.out.println("No any matches played !");
         } else { //If list contain played matches , then print all the matches played
-            System.out.println("+-------------------------------------------------------------------------------------------+");
+            System.out.println("+--------------------------------------------------------------------------------------+");
             System.out.format("%-18s%18s%18s%18s%15s","Club One Name","Club One Score","Club Two Name","Club Two Score","Match Date");
-            System.out.println("\n+-------------------------------------------------------------------------------------------+");
+            System.out.println("\n+--------------------------------------------------------------------------------------+");
 
             //Sort by Match Date
             sortDateFunction(listMatchDates);
@@ -345,7 +349,7 @@ public class PremierLeagueManager implements LeagueManager {
         int year = startYear + (int) Math.round(Math.random() * (endYear - startYear));
         int month = 1 + (int) Math.round(Math.random() * (12 - 1));
         int day = 1 + (int) Math.round(Math.random() * (28 - 1));
-        return year+"/"+month+"/"+day;
+        return  year +"/"+ String.format("%02d", month)+"/"+ String.format("%02d", day);
     }
 
     /*
